@@ -3,7 +3,6 @@ package sample.logic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import bean.Category;
@@ -28,7 +27,7 @@ public class FromListCnvToMap {
 	}
 	
 	/**
-	 * •Ê‚ÌƒNƒ‰ƒX‚É•ÏŠ·‚µ‚Ä“n‚·B
+	 * åˆ¥ã®ã‚¯ãƒ©ã‚¹ã«å¤‰æ›ã—ã¦æ¸¡ã™ã€‚
 	 * @return
 	 */
 	public Map<String, List<DummyMiddleCategory>> convertMap2() {
