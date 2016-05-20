@@ -40,6 +40,8 @@ public class FromListCnvToMap {
 				Collectors.toMap(Category::getKey, k -> valueMapper1(k))
 			);
 		
+		//mac にて修正。
+		
 		return res;
 	}
 	private List<DummyMiddleCategory> valueMapper1(Category category) {
