@@ -1,9 +1,12 @@
 package sample.logic;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import bean.Category;
 import bean.DummyMiddleCategory;
@@ -29,6 +32,8 @@ public class FromListCnvToMap {
 	/**
 	 * 別のクラスに変換して渡す。
 	 * @return
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
 	 */
 	public Map<String, List<DummyMiddleCategory>> convertMap2() {
 		
@@ -36,15 +41,15 @@ public class FromListCnvToMap {
 		
 		List<Category> cateList =  createLogic.create();
 		
-		Map<String, List<DummyMiddleCategory>> res = cateList.stream().collect(
-				Collectors.toMap(Category::getKey, k -> valueMapper1(k))
-			);
-		
-		//mac にて修正。
-		
-		return res;
+//		Map<String, List<DummyMiddleCategory>> res = cateList.stream().collect(
+//				Collectors.toMap(　Category::getKey, k -> valueMapper1(k))
+//			);
+	
+		return null;
 	}
-	private List<DummyMiddleCategory> valueMapper1(Category category) {
+	
+	//commonsのcopypropertyで良いかも。
+	private List<DummyMiddleCategory> valueMapper1(Category category)  {
 		
 		List<DummyMiddleCategory> dList = new ArrayList<>();
 		
@@ -55,6 +60,8 @@ public class FromListCnvToMap {
 		for (MiddleCategory mCategory : mCategoryList) {
 			
 			DummyMiddleCategory dummy = new DummyMiddleCategory();
+			//Exceptionの問題発生・・・どうやって呼びもとの例外処理を書こうかな・・・
+//			BeanUtils.copyProperties(dummy, mCategory);
 			dummy.setCategoryKey(categoryKey);
 			dummy.setKey(mCategory.getKey());
 			dummy.setName(mCategory.getName());
