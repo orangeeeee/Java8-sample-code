@@ -48,9 +48,9 @@ public class OptionalSample {
 			if (optType.get().equals(OperationType.NEW.getKey())) {
 
 				// execute insert;
-			} else if (optType.get().equals(OperationType.NEW.getKey())) {
+			} else if (optType.get().equals(OperationType.CHANGE.getKey())) {
 				// execute update
-			} else if (optType.get().equals(OperationType.NEW.getKey())) {
+			} else if (optType.get().equals(OperationType.DELETE.getKey())) {
 				// execute delete
 			} else {
 				System.out.println("inner isPresent() else");
