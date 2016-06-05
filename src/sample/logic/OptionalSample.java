@@ -80,8 +80,13 @@ public class OptionalSample {
 	private void usage3() {
 		
 		Optional<Category> optionalCar = Optional.empty();
-		String key = optionalCar.orElse( Category.getDefaultData() ).getKey();	
+		String key = optionalCar.orElse( Category.getDefaultData() ).getKey();
+		//生成コストの高いデフォルト値の場合は、orElseGetを使用する。
+		//読まれるまでは、ラムダ式を実行しないため、こちらの方が軽い。
+		String key2 = optionalCar.orElseGet( () -> Category.getDefaultData() ).getKey();
+		
 		System.out.println(key);
+		System.out.println(key2);
 	}
 
 	private int slowDefault() {
@@ -119,6 +124,34 @@ public class OptionalSample {
 		return Optional.ofNullable(result);
 	}
 
+	//正規表現パターン
+	final String pattern = "xxxx";
+	
+	/**
+	 * Code Level:bad
+	 * @param value
+	 * @return
+	 */
+    public boolean isMatch1(final String value) {
+
+    	//ここでnullを許可していることを明示する必要性がない。
+    	//がしかし、Optionalに一度変更したい場合は仕方がない・・・
+    	//が、かっこ悪い。これなら従来の記載方法の方が良い。
+        Optional<String> optionalValue = Optional.ofNullable(value);
+
+        return optionalValue.orElse("").matches(pattern);
+    }
+    
+	/**
+	 * Optional関係なくなった・・・
+	 * @param value
+	 * @return
+	 */
+    public boolean isMatch2(final String value) {
+
+    	return value.isEmpty() ? false : value.matches(pattern);
+    }    
+    
 	/**
 	 * sample候補
 	 * http://codingjunkie.net/working-with-java8-optionals/
