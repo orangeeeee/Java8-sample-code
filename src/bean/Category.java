@@ -34,4 +34,17 @@ public class Category {
 		this.middleCategoryList = middleCategoryList;
 	}
 
+	/**
+	 * デフォルトのcategoryデータを返す。
+	 * @return
+	 */
+	public static Category getDefaultData() {
+		
+		Category category = new Category();
+		category.setKey("KA");
+		category.setName("カーボンアンカー");
+		category.setMiddleCategoryList(null);
+		
+		return category;
+	}
 }

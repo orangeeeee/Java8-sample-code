@@ -32,15 +32,20 @@ public class OptionalSample {
 	}
 
 	/**
+	 * Level:Normal
 	 * とりあえず作ってみたけど、この使い方どうなんだろう。
 	 */
 	private void usage1() {
 
 		Optional<String> optType = getOperationType("new", "");
 
-		optType.orElseThrow(SystemException::new);
-
-		if (optType.isPresent()) {
+		//message なし
+//		optType.orElseThrow(SystemException::new);
+		//message あり
+		optType.orElseThrow(() -> new SystemException("exception extention"));
+		
+		//orEleseThrowを使用する場合、isPresentの判定不要。
+//		if (optType.isPresent()) {
 
 			System.out.println(optType.get());
 
@@ -55,16 +60,28 @@ public class OptionalSample {
 			} else {
 				System.out.println("inner isPresent() else");
 			}
-		}
+//		}
 	}
 
 	/**
-	 * この使い方は良い例だと思う。 Level:Good
+	 * Level:Good
+	 * この使い方は良い例だと思う。 
 	 * http://www.nurkiewicz.com/2013/08/optional-in-java-8-cheat-sheet.html
 	 */
 	private void usage2() {
 		Optional<String> opt = Optional.of("");
 		int len = opt.map(String::length).orElseGet(() -> slowDefault());
+	}
+	
+	/**
+	 * Level:Good
+	 * この使い方もとても良いと思う。
+	 */
+	private void usage3() {
+		
+		Optional<Category> optionalCar = Optional.empty();
+		String key = optionalCar.orElse( Category.getDefaultData() ).getKey();	
+		System.out.println(key);
 	}
 
 	private int slowDefault() {
@@ -102,4 +119,13 @@ public class OptionalSample {
 		return Optional.ofNullable(result);
 	}
 
+	/**
+	 * sample候補
+	 * http://codingjunkie.net/working-with-java8-optionals/
+	 */
+	
+	
+	
+	
+	
 }
