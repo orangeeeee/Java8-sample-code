@@ -3,7 +3,11 @@ package sample.pettern.mail.factory.java8;
 import sample.pettern.factory.bean.MailData;
 import sample.pettern.factory.bean.ReserveInfo;
 
-public class PremiumMailFactory implements MailFactory {
+public class PremiumMailFactory extends AbstructMailFactory implements MailFactory {
+	
+	/** mail template id */
+	private static String MAIL_TEMPLATE_NAME = "premium.txt";
+	
 	
 	/** メールタイトル */
 	private static String TITLE = "プレミアム会員お得情報";
@@ -27,20 +31,9 @@ public class PremiumMailFactory implements MailFactory {
 		return null;
 	}
 	
-	/**
-	 * テンプレートファイルからテンプレートの文字列を取得する。<br>
-	 * テンプレートは、メールごとに異なる想定。
-	 * @return
-	 */
-	@Override
-	public String getTemplate() {
-		
-		return "get Template File";
-	}
-
 	@Override
 	public String createBody(ReserveInfo reserveInfo) {
-		String template = getTemplate();
+		String template = getTemplate(MAIL_TEMPLATE_NAME);
 		//template bin
 		System.out.println(template);
 		return "create body string";
