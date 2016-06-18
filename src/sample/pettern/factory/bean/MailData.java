@@ -2,11 +2,29 @@ package sample.pettern.factory.bean;
 
 public class MailData {
 
-	public String title;
+	private String toAddress;
 	
-	public String name;
+	private String fromAddress;
 	
-	public String number;
+	private String title;
+	
+	private String body;
+
+	public String getToAddress() {
+		return toAddress;
+	}
+
+	public void setToAddress(String toAddress) {
+		this.toAddress = toAddress;
+	}
+
+	public String getFromAddress() {
+		return fromAddress;
+	}
+
+	public void setFromAddress(String fromAddress) {
+		this.fromAddress = fromAddress;
+	}
 
 	public String getTitle() {
 		return title;
@@ -16,21 +34,12 @@ public class MailData {
 		this.title = title;
 	}
 
-	public String getName() {
-		return name;
+	public String getBody() {
+		return body;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setBody(String body) {
+		this.body = body;
 	}
 
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-	
-	
 }

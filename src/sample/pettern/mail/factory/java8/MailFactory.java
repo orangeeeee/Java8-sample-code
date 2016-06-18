@@ -1,13 +1,18 @@
 package sample.pettern.mail.factory.java8;
 
 import sample.pettern.factory.bean.MailData;
+import sample.pettern.factory.bean.ReserveInfo;
 
 public interface MailFactory {
 
-	public final String TO_ADDRESS = "service@co.jp";
+	final String TO_ADDRESS = "service@co.jp";
 	
-	void create(MailData mailData);
+	MailData create(ReserveInfo mailData);
 	
 	String getBody();
+	
+	String createBody(ReserveInfo reserveInfo);
+	
+	String getTemplate();
 	
 }

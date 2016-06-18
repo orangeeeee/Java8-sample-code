@@ -1,15 +1,14 @@
 package sample.pettern.mail.factory.java8;
 
-import sample.pettern.factory.bean.MailData;
+import sample.pettern.factory.bean.ReserveInfo;
 
 public class mailExcec {
 
 	public static void main(String[] args) {
 	
-		MailData mailData = new MailData();
+		ReserveInfo mailData = new ReserveInfo();
 		mailData.setName("user name");
 		mailData.setNumber("user number");
-		mailData.setTitle("予約完了");
 		
 		MailSender.handleSendMail(PremiumMailFactory::new, mailData);
 	}

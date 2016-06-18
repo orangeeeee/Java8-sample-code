@@ -1,6 +1,7 @@
 package sample.pettern.mail.factory.java8;
 
 import sample.pettern.factory.bean.MailData;
+import sample.pettern.factory.bean.ReserveInfo;
 
 @FunctionalInterface
 public interface MailSender {
@@ -8,17 +9,17 @@ public interface MailSender {
 	public MailFactory getFactory();
 	
 	
-	default void createSendData(MailData mailData) {
+	default void sendMail(ReserveInfo reserveInfo) {
 		
-		getFactory().create(mailData);
+		MailData mailData = getFactory().create(reserveInfo);
 		
-		this.run();
+		this.send(mailData);
 	}
 	
 	/**
 	 * これはいらないかな・・・
 	 */
-	default void run() {
+	default void send(MailData mailData) {
 		
 	}
 	
@@ -26,9 +27,8 @@ public interface MailSender {
 	 * 無理やり感がすごいのだが、これは良いのだろうか・・・
 	 * @param mailSender
 	 */
-	public static void handleSendMail(MailSender mailSender, MailData mailData) {
+	public static void handleSendMail(MailSender mailSender, ReserveInfo reserveInfo) {
 
-		mailSender.createSendData(mailData);
-		mailSender.run();
+		mailSender.sendMail(reserveInfo);
 	}
 }
