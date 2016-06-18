@@ -6,7 +6,7 @@ import sample.pettern.factory.bean.Vehicle;
 public interface VehicleDriver {
 	
 	public Vehicle getVehicle();
-	
+		
 	public default void driveVehicle() {
 		getVehicle().drive();
 	}
