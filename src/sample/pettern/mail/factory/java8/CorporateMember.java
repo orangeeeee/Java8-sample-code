@@ -3,14 +3,14 @@ package sample.pettern.mail.factory.java8;
 import sample.pettern.factory.bean.MailData;
 import sample.pettern.factory.bean.ReserveInfo;
 
-public class PremiumMailFactory extends AbstructMailFactory implements MailFactory {
-	
+public class CorporateMember extends AbstructMailFactory implements MailFactory {
+
 	/** mail template id */
-	private static String MAIL_TEMPLATE_NAME = "premium.txt";	
-	
+	private static String MAIL_TEMPLATE_NAME = "corporate.txt";
+
 	/** メールタイトル */
-	private static String TITLE = "プレミアム会員様お得情報";
-	
+	private static String TITLE = "法人会員様お得情報";
+
 	@Override
 	public MailData create(ReserveInfo reserveInfo) {
 		
@@ -22,9 +22,9 @@ public class PremiumMailFactory extends AbstructMailFactory implements MailFacto
 		
 		return data;
 	}
-	
+
 	@Override
-	public String createBody(ReserveInfo reserveInfo) {
+	String createBody(ReserveInfo reserveInfo) {
 		String template = getTemplate(MAIL_TEMPLATE_NAME);
 		//template bin
 		System.out.println(template);

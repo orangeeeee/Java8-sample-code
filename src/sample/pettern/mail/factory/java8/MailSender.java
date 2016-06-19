@@ -7,8 +7,7 @@ import sample.pettern.factory.bean.ReserveInfo;
 public interface MailSender {
 
 	public MailFactory getFactory();
-	
-	
+		
 	default void sendMail(ReserveInfo reserveInfo) {
 		
 		MailData mailData = getFactory().create(reserveInfo);
@@ -29,6 +28,17 @@ public interface MailSender {
 	 */
 	public static void handleSendMail(MailSender mailSender, ReserveInfo reserveInfo) {
 
-		mailSender.sendMail(reserveInfo);
+		Runnable task = new Runnable(){
+			 
+		    @Override
+		    public void run(){
+		        System.out.println("handleSendMail");
+		        mailSender.sendMail(reserveInfo);
+		    }
+		};
+		
+		Thread thread = new Thread(task);
+		thread.start();
+		
 	}
 }
