@@ -37,8 +37,7 @@ public interface MailSender {
 		    }
 		};
 		
-		Thread thread = new Thread(task);
-		thread.start();
-		
+		new Thread(task).start();
+				
 	}
 }

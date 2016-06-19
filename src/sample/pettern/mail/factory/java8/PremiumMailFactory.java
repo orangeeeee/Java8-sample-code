@@ -14,11 +14,15 @@ public class PremiumMailFactory extends AbstructMailFactory implements MailFacto
 	@Override
 	public MailData create(ReserveInfo reserveInfo) {
 		
+		System.out.println("start create");
+		
 		MailData data = new MailData();
 		data.setToAddress(TO_ADDRESS);
 		data.setFromAddress(reserveInfo.getMailAddress());
 		data.setTitle(TITLE);
 		data.setBody(createBody(reserveInfo));
+		
+		System.out.println("end create");
 		
 		return data;
 	}
@@ -28,6 +32,8 @@ public class PremiumMailFactory extends AbstructMailFactory implements MailFacto
 		String template = getTemplate(MAIL_TEMPLATE_NAME);
 		//template bin
 		System.out.println(template);
+		System.out.println("createBody");
+		
 		return "create body string";
 	}
 
