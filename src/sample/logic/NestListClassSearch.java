@@ -3,6 +3,8 @@ package sample.logic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import bean.Category;
@@ -35,6 +37,8 @@ public class NestListClassSearch {
 
 	}
 
+	private final Function<String, Predicate<MiddleCategory>> machMCategory = searchKey -> mc -> mc.getKey().equals(searchKey);
+	
 	public void searchMacthConditon(String searchKey) {
 
 		CreateCategoryDataList createLogic = new CreateCategoryDataList();
@@ -46,7 +50,11 @@ public class NestListClassSearch {
 				.findFirst().get().getLastCategoryList().stream().filter(lc -> this.isConditin(lc)).findFirst();
 
 		//引数を渡しているだけなのでメソッド参照に書き換えた
-		Optional<LastCategory> result = middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey))
+		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey))
+				.findFirst().get().getLastCategoryList().stream().filter(this::isConditin).findFirst();
+
+		//条件式を関数化
+		Optional<LastCategory> result = middleCategoryList.stream().filter(machMCategory.apply(searchKey))
 				.findFirst().get().getLastCategoryList().stream().filter(this::isConditin).findFirst();
 
 		if(!result.isPresent()) {
