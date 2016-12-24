@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import bean.Category;
 import bean.LastCategory;
@@ -37,8 +38,9 @@ public class NestListClassSearch {
 
 	}
 
-	private final Function<String, Predicate<MiddleCategory>> machMCategory = searchKey -> mc -> mc.getKey().equals(searchKey);
-	
+	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> mc -> mc.getKey()
+			.equals(searchKey);
+
 	public void searchMacthConditon(String searchKey) {
 
 		CreateCategoryDataList createLogic = new CreateCategoryDataList();
@@ -46,23 +48,31 @@ public class NestListClassSearch {
 		List<Category> cateList = createLogic.create();
 		List<MiddleCategory> middleCategoryList = cateList.get(0).getMiddleCategoryList();
 
-		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey))
-				.findFirst().get().getLastCategoryList().stream().filter(lc -> this.isConditin(lc)).findFirst();
+		// 167
+		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
+				.stream().filter(lc -> this.isConditin(lc)).findFirst();
 
-		//引数を渡しているだけなのでメソッド参照に書き換えた
-		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey))
-				.findFirst().get().getLastCategoryList().stream().filter(this::isConditin).findFirst();
+		// 引数を渡しているだけなのでメソッド参照に書き換えた 159
+		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
+				.stream().filter(this::isConditin).findFirst();
 
-		//条件式を関数化
-		Optional<LastCategory> result = middleCategoryList.stream().filter(machMCategory.apply(searchKey))
-				.findFirst().get().getLastCategoryList().stream().filter(this::isConditin).findFirst();
+		// 条件式を関数化 153
+		middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst().get().getLastCategoryList().stream()
+				.filter(this::isConditin).findFirst();
 
-		if(!result.isPresent()) {
+		// LastCategoryの抽出を別メソッド化
+		Optional<LastCategory> result = this.getLastCategory(middleCategoryList, searchKey).stream()
+				.filter(this::isConditin).findFirst();
+
+		if (!result.isPresent()) {
 			System.out.println("LastCategory is empty");
 		}
-		
-		System.out.println("end");
 
+		System.out.println("end");
+	}
+
+	private List<LastCategory> getLastCategory(List<MiddleCategory> middleCategoryList, String searchKey) {
+		return middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst().get().getLastCategoryList();
 	}
 
 	private boolean isConditin(LastCategory lastCategory) {
@@ -85,11 +95,11 @@ public class NestListClassSearch {
 		searchKeys.add("CH");
 
 		// ここのAの部分を検索キーワードが詰まった配列にしたい。
-//		 List<MiddleCategory> mCate =
-//		 cateList.stream().map(forEach(clist ->
-//		 clist.getMiddleCategoryList().stream()
-//		 .(mCate ->
-//		 searchKeys.contains(mCate.getKey())).collect(Collectors.toList()));
+		// List<MiddleCategory> mCate =
+		// cateList.stream().map(forEach(clist ->
+		// clist.getMiddleCategoryList().stream()
+		// .(mCate ->
+		// searchKeys.contains(mCate.getKey())).collect(Collectors.toList()));
 
 		// List<Category> temp =
 		// cateList.stream().filter(cate -> searchKeys.contains(
