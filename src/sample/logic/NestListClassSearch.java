@@ -41,12 +41,7 @@ public class NestListClassSearch {
 	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> mc -> mc.getKey()
 			.equals(searchKey);
 
-	public void searchMacthConditon(String searchKey) {
-
-		CreateCategoryDataList createLogic = new CreateCategoryDataList();
-
-		List<Category> cateList = createLogic.create();
-		List<MiddleCategory> middleCategoryList = cateList.get(0).getMiddleCategoryList();
+	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList ) {
 
 		// 167
 		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
@@ -61,8 +56,11 @@ public class NestListClassSearch {
 				.filter(this::isConditin).findFirst();
 
 		// LastCategoryの抽出を別メソッド化
-		Optional<LastCategory> result = this.getLastCategory(middleCategoryList, searchKey).stream()
-				.filter(this::isConditin).findFirst();
+		this.getLastCategory(middleCategoryList, searchKey).parallelStream().filter(this::isConditin).findFirst();
+
+		// 並列処理へ変更
+		Optional<LastCategory> result = this.getLastCategoryParallel(middleCategoryList, searchKey).parallelStream()
+				.filter(this::isConditin).findAny();
 
 		if (!result.isPresent()) {
 			System.out.println("LastCategory is empty");
@@ -71,12 +69,30 @@ public class NestListClassSearch {
 		System.out.println("end");
 	}
 
+	/**
+	 * 直列処理
+	 * @param middleCategoryList
+	 * @param searchKey
+	 * @return
+	 */
 	private List<LastCategory> getLastCategory(List<MiddleCategory> middleCategoryList, String searchKey) {
 		return middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst().get().getLastCategoryList();
+	}
+	
+	/**
+	 * 並列処理
+	 * @param middleCategoryList
+	 * @param searchKey
+	 * @return
+	 */
+	private List<LastCategory> getLastCategoryParallel(List<MiddleCategory> middleCategoryList, String searchKey) {
+		return middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findAny().get().getLastCategoryList();
 	}
 
 	private boolean isConditin(LastCategory lastCategory) {
 
+		// 条件式を記載する。
+		
 		return true;
 	}
 
