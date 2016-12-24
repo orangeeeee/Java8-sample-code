@@ -59,12 +59,26 @@ public class CreateCategoryDataList {
 
 		List<LastCategory> tempList = new ArrayList<>();
 
+		int count = 0;
+		
 		for (String key : keys) {
 
 			LastCategory temp = new LastCategory();
 
+			if(count % 2 == 0) {
+				temp.setFlag1(true);
+				temp.setFlag2(true);
+				temp.setFlag3(true);
+			}else {
+				temp.setFlag1(false);				
+				temp.setFlag2(false);				
+				temp.setFlag3(false);				
+			}
+			
 			temp.setKey(pKey + key);
 			tempList.add(temp);
+			
+			count++;
 		}
 
 		return tempList;

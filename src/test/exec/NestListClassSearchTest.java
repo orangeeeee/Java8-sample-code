@@ -9,7 +9,8 @@ public class NestListClassSearchTest {
 
 
 		NestListClassSearch logic = new NestListClassSearch();
-		logic.searchNestListKey();
+//		logic.searchNestListKey();
+		logic.searchMacthConditon("AQ");
 		
 	}
 }

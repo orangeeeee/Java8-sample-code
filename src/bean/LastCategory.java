@@ -1,9 +1,16 @@
 package bean;
 
 public class LastCategory {
+	
 	private String key;
 
 	private String name;
+	
+	private boolean flag1;
+
+	private boolean flag2;
+	
+	private boolean flag3;
 
 	private String ditail1;
 
@@ -35,6 +42,30 @@ public class LastCategory {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isFlag1() {
+		return flag1;
+	}
+
+	public void setFlag1(boolean flag1) {
+		this.flag1 = flag1;
+	}
+
+	public boolean isFlag2() {
+		return flag2;
+	}
+
+	public void setFlag2(boolean flag2) {
+		this.flag2 = flag2;
+	}
+
+	public boolean isFlag3() {
+		return flag3;
+	}
+
+	public void setFlag3(boolean flag3) {
+		this.flag3 = flag3;
 	}
 
 	public String getDitail1() {
