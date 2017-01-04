@@ -1,9 +1,5 @@
 package test.exec;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import bean.Category;
@@ -21,7 +17,7 @@ public class NestListClassSearchTest {
 		List<MiddleCategory> middleCategoryList = cateList.get(0).getMiddleCategoryList();
 		
 		NestListClassSearch logic = new NestListClassSearch();
-		logic.searchMacthConditon("AQ",middleCategoryList);
+		logic.searchMacthConditon("XX",middleCategoryList);
 		
 	}
 }

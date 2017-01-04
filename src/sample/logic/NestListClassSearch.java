@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import bean.Category;
 import bean.LastCategory;
@@ -43,25 +42,25 @@ public class NestListClassSearch {
 
 	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList ) {
 
-		// 167
-		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
-				.stream().filter(lc -> this.isConditin(lc)).findFirst();
+//		// 167
+//		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
+//				.stream().filter(lc -> this.isConditin(lc)).findFirst();
+//
+//		// 引数を渡しているだけなのでメソッド参照に書き換えた 159
+//		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
+//				.stream().filter(this::isConditin).findFirst();
+//
+//		// 条件式を関数化 153
+//		middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst().get().getLastCategoryList().stream()
+//				.filter(this::isConditin).findFirst();
+//
+//		// LastCategoryの抽出を別メソッド化
+//		this.getLastCategory(middleCategoryList, searchKey).parallelStream().filter(this::isConditin).findFirst();
+//
+		// 並列処理へ変更（戻り値がVoidなので、Listを返せない）
+//		Optional<LastCategory> result = this.getLastCategoryParallel(middleCategoryList, searchKey).ifPresent(mList -> mList.getLastCategoryList().parallelStream().filter(this::isConditin).findAny());
 
-		// 引数を渡しているだけなのでメソッド参照に書き換えた 159
-		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList()
-				.stream().filter(this::isConditin).findFirst();
-
-		// 条件式を関数化 153
-		middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst().get().getLastCategoryList().stream()
-				.filter(this::isConditin).findFirst();
-
-		// LastCategoryの抽出を別メソッド化
-		this.getLastCategory(middleCategoryList, searchKey).parallelStream().filter(this::isConditin).findFirst();
-
-		// 並列処理へ変更
-		Optional<LastCategory> result = this.getLastCategoryParallel(middleCategoryList, searchKey).parallelStream()
-				.filter(this::isConditin).findAny();
-
+		Optional<LastCategory> result = this.getLastCategoryParallel(middleCategoryList, searchKey).parallelStream().filter(this::isConditin).findAny();
 		if (!result.isPresent()) {
 			System.out.println("LastCategory is empty");
 		}
@@ -70,29 +69,45 @@ public class NestListClassSearch {
 	}
 
 	/**
-	 * 直列処理
+	 * 直列処理 この方法だと、Optionalを使用している意味が薄れる？ parallelの方に書いた、Optionalで返すのがいい？<br>
+	 * と思ったが、ifPresentは、Consumer(戻り値Void)しかないので、Functionalを使用できないため、今回のケースはできない。<br>
+	 * また、この例では、Listを返しているが、Optionalを返すのが正しいと思う。
 	 * @param middleCategoryList
 	 * @param searchKey
 	 * @return
 	 */
 	private List<LastCategory> getLastCategory(List<MiddleCategory> middleCategoryList, String searchKey) {
-		return middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst().get().getLastCategoryList();
+		Optional<MiddleCategory> optMiddleCategory = middleCategoryList.stream().filter(mKeyMach.apply(searchKey))
+				.findFirst();
+		return optMiddleCategory.isPresent() == false ? new ArrayList<LastCategory>()
+				: optMiddleCategory.get().getLastCategoryList();
 	}
-	
+
 	/**
 	 * 並列処理
+	 * 
 	 * @param middleCategoryList
 	 * @param searchKey
 	 * @return
 	 */
-	private List<LastCategory> getLastCategoryParallel(List<MiddleCategory> middleCategoryList, String searchKey) {
-		return middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findAny().get().getLastCategoryList();
+	private Optional<MiddleCategory> getLastCategoryParallel2(List<MiddleCategory> middleCategoryList,
+			String searchKey) {
+		// nullが返るとエラーになるので、作り直さないといけない。
+		return middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findAny();
 	}
-
+	
+	private List<LastCategory> getLastCategoryParallel(List<MiddleCategory> middleCategoryList,
+			String searchKey) {
+		Optional<MiddleCategory> optMiddleCategory = middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey))
+				.findFirst();
+		return optMiddleCategory.isPresent() == false ? new ArrayList<LastCategory>()
+				: optMiddleCategory.get().getLastCategoryList();
+	}
+	
 	private boolean isConditin(LastCategory lastCategory) {
 
 		// 条件式を記載する。
-		
+
 		return true;
 	}
 
