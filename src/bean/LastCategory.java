@@ -3,9 +3,7 @@ package bean;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-import util.StringUtils;
-
-public class LastCategory {
+public class LastCategory extends BaseBean {
 	
 	private String key;
 
@@ -143,7 +141,7 @@ public class LastCategory {
 		
 		Field[] fields = this.getClass().getDeclaredFields();
 	
-		Arrays.asList(fields).stream().forEach(field -> StringUtils.setItemPropeties(sb, field, this));
+		Arrays.asList(fields).stream().forEach(field -> this.setItemPropeties(sb, field));
 		
 		return sb.toString();
 	}

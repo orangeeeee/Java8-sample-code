@@ -1,8 +1,12 @@
 package bean;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
-public class MiddleCategory {
+import org.apache.commons.beanutils.BeanUtilsBean;
+
+public class MiddleCategory extends BaseBean {
 
 	private String key;
 
@@ -135,7 +139,13 @@ public class MiddleCategory {
 	}
 
 	public String toString() {
-		this.getClass().getDeclaredFields().toString();
-		return "";
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Field[] fields = this.getClass().getDeclaredFields();
+	
+		Arrays.asList(fields).stream().forEach(field -> this.setItemPropeties(sb, field));
+		
+		return sb.toString();
 	}
 }

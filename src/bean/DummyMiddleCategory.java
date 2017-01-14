@@ -1,6 +1,9 @@
 package bean;
 
-public class DummyMiddleCategory {
+import java.lang.reflect.Field;
+import java.util.Arrays;
+
+public class DummyMiddleCategory extends BaseBean {
 
 	private String categoryKey;
 	
@@ -51,6 +54,16 @@ public class DummyMiddleCategory {
 	public void setCondition2(String condition2) {
 		this.condition2 = condition2;
 	}
+
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Field[] fields = this.getClass().getDeclaredFields();
 	
+		Arrays.asList(fields).stream().forEach(field -> this.setItemPropeties(sb, field));
+		
+		return sb.toString();
+	}
 	
 }

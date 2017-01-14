@@ -1,8 +1,10 @@
 package bean;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
-public class Category {
+public class Category extends BaseBean {
 	
 	private String key;
 
@@ -46,5 +48,16 @@ public class Category {
 		category.setMiddleCategoryList(null);
 		
 		return category;
+	}
+
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Field[] fields = this.getClass().getDeclaredFields();
+	
+		Arrays.asList(fields).stream().forEach(field -> this.setItemPropeties(sb, field));
+		
+		return sb.toString();
 	}
 }
