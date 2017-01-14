@@ -17,7 +17,7 @@ public class NestListClassSearchTest {
 		List<MiddleCategory> middleCategoryList = cateList.get(0).getMiddleCategoryList();
 		
 		NestListClassSearch logic = new NestListClassSearch();
-		logic.searchMacthConditon("XX",middleCategoryList);
+		logic.searchMacthConditon("AG",middleCategoryList);
 		
 	}
 }

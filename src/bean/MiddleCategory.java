@@ -134,4 +134,8 @@ public class MiddleCategory {
 		this.lastCategoryList = lastCategoryList;
 	}
 
+	public String toString() {
+		this.getClass().getDeclaredFields().toString();
+		return "";
+	}
 }

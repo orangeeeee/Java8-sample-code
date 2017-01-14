@@ -1,5 +1,10 @@
 package bean;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+
+import util.StringUtils;
+
 public class LastCategory {
 	
 	private String key;
@@ -130,5 +135,16 @@ public class LastCategory {
 
 	public void setDitail8(String ditail8) {
 		this.ditail8 = ditail8;
+	}
+
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Field[] fields = this.getClass().getDeclaredFields();
+	
+		Arrays.asList(fields).stream().forEach(field -> StringUtils.setItemPropeties(sb, field, this));
+		
+		return sb.toString();
 	}
 }

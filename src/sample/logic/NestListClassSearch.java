@@ -48,7 +48,8 @@ public class NestListClassSearch {
 	 */
 	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList) {
 
-		// ---- FIXME NG 最初のfindFirstの結果がNoSuchElementExceptionの場合に落ちる。 ----------------------
+		// ---- FIXME NG 最初のfindFirstの結果がNoSuchElementExceptionの場合に落ちる。
+		// ----------------------
 		/**
 		 * // 普通に書く middleCategoryList.stream().filter(mc ->
 		 * mc.getKey().equals(searchKey)).findFirst().get().getLastCategoryList(
@@ -64,12 +65,14 @@ public class NestListClassSearch {
 		 * .filter(this::isConditin).findFirst();
 		 * 
 		 * 
-			//絶対にデータが存在しているならこれでいい。存在していないと、.get()で落ちる。
-			Optional<LastCategory> result = Optional
-					.ofNullable(this.getLastCategoryParallel2(middleCategoryList, searchKey).get().getLastCategoryList())
-					.orElse(new ArrayList<LastCategory>()).parallelStream().filter(this::isConditin).findAny();
+		 * //絶対にデータが存在しているならこれでいい。存在していないと、.get()で落ちる。 Optional
+		 * <LastCategory> result = Optional
+		 * .ofNullable(this.getLastCategoryParallel2(middleCategoryList,
+		 * searchKey).get().getLastCategoryList()) .orElse(new ArrayList
+		 * <LastCategory>()).parallelStream().filter(this::isConditin).findAny()
+		 * ;
 		 */
-		
+
 		// --------------------------------------------------------------------------
 
 		// // // LastCategoryの抽出を別メソッド化
@@ -77,12 +80,13 @@ public class NestListClassSearch {
 		// searchKey).parallelStream().filter(this::isConditin).findFirst();
 		//
 		// // parallel streamに変更
-		Optional<LastCategory> result = this.getLastCategoryParallel3(middleCategoryList, searchKey).parallelStream().filter(this::isConditin)
-				.findAny();
-		
-		//これでも書けるけど長い
+		Optional<LastCategory> result = this.getLastCategoryParallel3(middleCategoryList, searchKey).parallelStream()
+				.peek(e -> System.out.println("log :" + e.toString())).filter(this::isConditin).findAny();
+
+		// これでも書けるけど長い
 		Optional<LastCategory> result2 = Optional
-				.ofNullable(this.getLastCategoryParallel2(middleCategoryList, searchKey).orElse(new MiddleCategory()).getLastCategoryList())
+				.ofNullable(this.getLastCategoryParallel2(middleCategoryList, searchKey).orElse(new MiddleCategory())
+						.getLastCategoryList())
 				.orElse(new ArrayList<LastCategory>()).parallelStream().filter(this::isConditin).findAny();
 
 		if (!result.isPresent()) {
@@ -94,6 +98,7 @@ public class NestListClassSearch {
 
 	/**
 	 * 並列処理
+	 * 
 	 * @param middleCategoryList
 	 * @param searchKey
 	 * @return List<LastCategory>
@@ -118,12 +123,13 @@ public class NestListClassSearch {
 
 	/**
 	 * データが存在しないケースがある場合
+	 * 
 	 * @param middleCategoryList
 	 * @param searchKey
 	 * @return
 	 */
 	private List<LastCategory> getLastCategoryParallel3(List<MiddleCategory> middleCategoryList, String searchKey) {
-		
+
 		Optional<MiddleCategory> optMiddleCategory = middleCategoryList.parallelStream()
 				.filter(mKeyMach.apply(searchKey)).findFirst();
 
@@ -132,8 +138,8 @@ public class NestListClassSearch {
 	}
 
 	/**
-	 * 直列処理
-	 * 絶対にデータが存在する場合
+	 * 直列処理 絶対にデータが存在する場合
+	 * 
 	 * @param middleCategoryList
 	 * @param searchKey
 	 * @return List<LastCategory>
