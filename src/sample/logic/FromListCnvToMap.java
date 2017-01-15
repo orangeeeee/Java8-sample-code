@@ -22,9 +22,15 @@ public class FromListCnvToMap {
 		
 		List<Category> cateList =  createLogic.create();
 		
+		//listのTOPにあるクラスの項目以外をkeyにする場合
 		Map<String, List<MiddleCategory>> res = cateList.stream().collect(
 				Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList())
 			);
+		
+
+		//listのTOPにあるクラスの項目をkeyにする場合
+		Map<Object, List<Category>> res2 = cateList.stream().collect(
+				Collectors.groupingBy(k->k.getKey()));
 		
 		return res;
 	}
