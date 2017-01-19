@@ -4,9 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 import bean.Category;
 import bean.DummyMiddleCategory;
@@ -27,14 +26,13 @@ public class FromListCnvToMap {
 				Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList())
 			);
 		
-
 		//listのTOPにあるクラスの項目をkeyにする場合
 		Map<Object, List<Category>> res2 = cateList.stream().collect(
 				Collectors.groupingBy(k->k.getKey()));
 		
 		return res;
 	}
-	
+
 	/**
 	 * 別のクラスに変換して渡す。
 	 * @return

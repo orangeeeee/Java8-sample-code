@@ -6,10 +6,13 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import bean.Category;
 import bean.LastCategory;
 import bean.MiddleCategory;
+import emum.MemberType;
+import emum.kubun;
 import test.data.CreateCategoryDataList;
 
 public class NestListClassSearch {
@@ -119,6 +122,17 @@ public class NestListClassSearch {
 	private Optional<MiddleCategory> getLastCategoryParallel2(List<MiddleCategory> middleCategoryList,
 			String searchKey) {
 		return middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findFirst();
+	}
+	
+	public void test() {
+		this.getXXX(MemberType.class, "2");
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private <E extends Enum> Optional<E> getXXX(Class<E> clazz, String keyValue) {
+		
+		return Stream.of(clazz.getEnumConstants()).filter(k -> ((kubun) k).getKey().equals(keyValue)).findFirst();
+	
 	}
 
 	/**

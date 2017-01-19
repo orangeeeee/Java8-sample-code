@@ -1,23 +1,23 @@
 package emum;
 
-public enum MemberType {
+public enum MemberType implements kubun {
 
-	NOMAL(1,"SRM"),
-	PREMIUM(1,"SRM");
+	NOMAL("1","SRM"),
+	PREMIUM("1","SRM");
 	
-	private int key;
+	private String key;
 	private String name;
 	
-	private MemberType(int key, String name) {
+	private MemberType(String key, String name) {
 		this.key = key;
 		this.name= name;
 	}
 
-	public int getKey() {
+	public String getKey() {
 		return key;
 	}
 
-	public void setKey(int key) {
+	public void setKey(String key) {
 		this.key = key;
 	}
 
