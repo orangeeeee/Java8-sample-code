@@ -3,6 +3,7 @@ package bean;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Category extends BaseBean {
 	
@@ -56,7 +57,7 @@ public class Category extends BaseBean {
 		
 		Field[] fields = this.getClass().getDeclaredFields();
 	
-		Arrays.asList(fields).stream().forEach(field -> this.setItemPropeties(sb, field));
+		Stream.of(fields).forEach(field -> this.setItemPropeties(sb, field));
 		
 		return sb.toString();
 	}

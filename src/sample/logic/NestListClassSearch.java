@@ -123,17 +123,6 @@ public class NestListClassSearch {
 			String searchKey) {
 		return middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findFirst();
 	}
-	
-	public void test() {
-		this.getXXX(MemberType.class, "2");
-	}
-	
-	@SuppressWarnings("rawtypes")
-	private <E extends Enum> Optional<E> getXXX(Class<E> clazz, String keyValue) {
-		
-		return Stream.of(clazz.getEnumConstants()).filter(k -> ((kubun) k).getKey().equals(keyValue)).findFirst();
-	
-	}
 
 	/**
 	 * データが存在しないケースがある場合
