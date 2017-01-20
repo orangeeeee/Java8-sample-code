@@ -25,10 +25,9 @@ public class OtherObjectStream {
 		
 	}
 	
-	@SuppressWarnings("rawtypes")
-	private <E extends Enum> Optional<E> get(Class<E> clazz, String keyValue) {
+	private <E extends Enum<E>> Optional<E> get(Class<E> clazz, String keyValue) {
 		
-		return Stream.of(clazz.getEnumConstants()).filter(k -> k instanceof Enum && ((kubun) k).getKey().equals(keyValue)).findFirst();
+		return Stream.of(clazz.getEnumConstants()).filter(k -> k instanceof kubun && ((kubun) k).getKey().equals(keyValue)).findFirst();
 	
 	}
 
