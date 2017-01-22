@@ -51,6 +51,9 @@ public class NestListClassSearch {
 	 */
 	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList) {
 
+		System.out.println(middleCategoryList);
+//		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst();
+		
 		// ---- FIXME NG 最初のfindFirstの結果がNoSuchElementExceptionの場合に落ちる。
 		// ----------------------
 		/**
