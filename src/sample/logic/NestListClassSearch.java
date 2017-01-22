@@ -1,6 +1,7 @@
 package sample.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -11,8 +12,6 @@ import java.util.stream.Stream;
 import bean.Category;
 import bean.LastCategory;
 import bean.MiddleCategory;
-import emum.MemberType;
-import emum.kubun;
 import test.data.CreateCategoryDataList;
 
 public class NestListClassSearch {
@@ -40,8 +39,8 @@ public class NestListClassSearch {
 
 	}
 
-	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> mc -> mc.getKey()
-			.equals(searchKey);
+	private final Function<String, Predicate<MiddleCategory>> mKeyMach 
+		= searchKey -> mc -> mc.getKey().equals(searchKey);
 
 	/**
 	 * ネストクラスのList内検索のサンプル。
@@ -50,10 +49,15 @@ public class NestListClassSearch {
 	 * @param middleCategoryList
 	 */
 	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList) {
-
-		System.out.println(middleCategoryList);
-//		middleCategoryList.stream().filter(mc -> mc.getKey().equals(searchKey)).findFirst();
 		
+		Optional<MiddleCategory> middleCategory  
+			= middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findFirst();
+
+		
+		middleCategory.get();
+		// middleCategoryList.stream().filter(mc ->
+		// mc.getKey().equals(searchKey)).findFirst();
+
 		// ---- FIXME NG 最初のfindFirstの結果がNoSuchElementExceptionの場合に落ちる。
 		// ----------------------
 		/**

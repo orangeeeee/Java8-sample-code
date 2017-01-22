@@ -27,9 +27,10 @@ public class FromListCnvToMap {
 			);
 		
 		//listのTOPにあるクラスの項目をkeyにする場合
-		Map<Object, List<Category>> res2 = cateList.stream().collect(
+		Map<Object, List<Category>> resGroupBy = cateList.stream().collect(
 				Collectors.groupingBy(k->k.getKey()));
 		
+		resGroupBy.getClass();
 		return res;
 	}
 
