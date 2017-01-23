@@ -39,6 +39,7 @@ public class NestListClassSearch {
 
 	}
 
+	//Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
 	private final Function<String, Predicate<MiddleCategory>> mKeyMach 
 		= searchKey -> mc -> mc.getKey().equals(searchKey);
 
