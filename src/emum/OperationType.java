@@ -1,6 +1,6 @@
 package emum;
 
-public enum OperationType {
+public enum OperationType implements kubun {
 
 	NEW("1", "NEW"),
 	CHANGE("2", "CHANGE"),

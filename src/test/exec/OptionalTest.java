@@ -2,7 +2,7 @@ package test.exec;
 
 import sample.logic.DateTest;
 
-public class testDate {
+public class OptionalTest {
 
 	public static void main(String[] args) {
 
