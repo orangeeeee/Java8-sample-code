@@ -26,32 +26,32 @@ public class FromListCnvToMap {
 		Map<String, List<MiddleCategory>> res = cateList.stream()
 				.collect(Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList()));
 
-		//並列処理
+		// 並列処理
 		Map<String, List<MiddleCategory>> pararel = cateList.stream()
 				.collect(Collectors.toConcurrentMap(Category::getKey, k -> k.getMiddleCategoryList()));
 
 		// listのTOPにあるクラスの項目をkeyにする場合
 		Map<Object, List<Category>> resGroupBy = cateList.stream().collect(Collectors.groupingBy(k -> k.getKey()));
-		
-		//これでも同じ
+
+		// これでも同じ
 		Map<String, String> oparationTypeMapLamdba = Stream.of(OperationType.values())
 				.collect(Collectors.toMap(s -> s.getKey(), s -> s.getName()));
 
 		// EnumをMapへ変換[ key,name] HashMap
 		Map<String, String> oparationTypeMap = Stream.of(OperationType.values())
 				.collect(Collectors.toMap(OperationType::getKey, OperationType::getName));
-		
+
 		Map<String, String> memberTypeMap = Stream.of(MemberType.values())
 				.collect(Collectors.toMap(MemberType::name, mt -> mt.getKey()));
 
 		// 中身を確認する countは終端処理を何かしらきさいしないとpeekが動作しないのでつけている。
 		oparationTypeMap.entrySet().stream()
-				.peek(opeMap -> System.out.println("key :" + opeMap.getKey() + ",value:" + opeMap.getValue())).count();
+				.forEach(opeMap -> System.out.println("key :" + opeMap.getKey() + ",value:" + opeMap.getValue()));
 
 		System.out.println("---------------");
 		// 中身を確認する
 		memberTypeMap.entrySet().stream()
-				.peek(opeMap -> System.out.println("key :" + opeMap.getKey() + ",value:" + opeMap.getValue())).count();
+				.forEach(opeMap -> System.out.println("key :" + opeMap.getKey() + ",value:" + opeMap.getValue()));
 
 		return res;
 	}

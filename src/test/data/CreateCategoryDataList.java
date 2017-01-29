@@ -11,7 +11,7 @@ public class CreateCategoryDataList {
 
 	public List<Category> create() {
 
-		final String[] keys = { "A", "B", "C", "D", "E" };
+		final String[] keys = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q" };
 
 		return createCategoryList(keys);
 	};
@@ -30,7 +30,7 @@ public class CreateCategoryDataList {
 			temp.setMiddleCategoryList(createMiddle(key, mKeys));
 			tempList.add(temp);
 		}
-		
+
 		return tempList;
 	}
 
@@ -45,13 +45,13 @@ public class CreateCategoryDataList {
 			MiddleCategory temp = new MiddleCategory();
 
 			String myKey = pKey + key;
-			
+
 			temp.setKey(myKey);
-			
+
 			temp.setLastCategoryList(createLast(myKey, mKeys));
 			tempList.add(temp);
 		}
-		
+
 		return tempList;
 	}
 
@@ -60,24 +60,24 @@ public class CreateCategoryDataList {
 		List<LastCategory> tempList = new ArrayList<>();
 
 		int count = 0;
-		
+
 		for (String key : keys) {
 
 			LastCategory temp = new LastCategory();
 
-			if(count % 2 == 0) {
+			if (count % 2 == 0) {
 				temp.setFlag1(true);
 				temp.setFlag2(true);
 				temp.setFlag3(true);
-			}else {
-				temp.setFlag1(false);				
-				temp.setFlag2(false);				
-				temp.setFlag3(false);				
+			} else {
+				temp.setFlag1(false);
+				temp.setFlag2(false);
+				temp.setFlag3(false);
 			}
-			
+
 			temp.setKey(pKey + key);
 			tempList.add(temp);
-			
+
 			count++;
 		}
 
