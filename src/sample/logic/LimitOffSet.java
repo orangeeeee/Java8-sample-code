@@ -1,8 +1,10 @@
 package sample.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import bean.Category;
 import bean.Paging;
@@ -20,7 +22,13 @@ public class LimitOffSet {
 	}
 
 	public void execute() {
+		
 		List<Category> cateList = this.getList();
+		
+		Stream<String> namesStream = Arrays.asList("hoge hoge", "foo bar", "naoki", "kishida").stream();
+		System.out.println( namesStream.anyMatch(s -> s.length() > 7)); //true
+		System.out.println( namesStream.noneMatch(s -> s.length() > 7)); //true
+		
 		List<Category> nextCateList = getNextPageList(cateList);
 		List<Category> prevCateList = getPrevPageList(cateList);
 
