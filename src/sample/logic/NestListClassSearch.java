@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import bean.Category;
 import bean.LastCategory;
@@ -15,44 +14,38 @@ import test.data.CreateCategoryDataList;
 public class NestListClassSearch {
 
 	/**
-	 * [パターン1] 検索キーを持ったListを渡し、 Categoryデータが格納してあるListから検索キーListにマッチしたキーを持つ
-	 * CategoryのListを返す。
+	 * flatMapを使用し、ネストしたListをstreamで検索する。
 	 */
-	public void searchNestListKey() {
-
+	public void searchByFlatMap() {
+		// テストデータ作成
 		CreateCategoryDataList createLogic = new CreateCategoryDataList();
-
 		List<Category> cateList = createLogic.create();
 
-		List<String> searchKeys = new ArrayList<>();
-		searchKeys.add("A");
-		searchKeys.add("B");
-		// ここのAの部分を検索キーワードが詰まった配列にしたい。
-		List<Category> temp = cateList.stream().filter(cate -> searchKeys.contains(cate.getKey()))
-				.collect(Collectors.toList());
-
-		temp.forEach(System.out::print);
-
-		// 条件に合うものが存在するか確認する。
-
+		final String searchKey = "BG";
+		Optional<MiddleCategory> middleCategory = cateList.stream().flatMap(mc -> mc.getMiddleCategoryList().stream())
+				.filter(mc -> mc.getKey().equals(searchKey)).findFirst();
+		
+		if (middleCategory.isPresent()) {
+			System.out.println("success get middleCategory:");
+			System.out.println(middleCategory.toString());
+		}
 	}
 
-	//Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
-	private final Function<String, Predicate<MiddleCategory>> mKeyMach 
-		= searchKey -> mc -> mc.getKey().equals(searchKey);
+	// Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
+	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> mc -> mc.getKey()
+			.equals(searchKey);
 
 	/**
-	 * ネストクラスのList内検索のサンプル。
+	 * 一番上のクラスから順にfilterで絞る。
 	 * 
 	 * @param searchKey
 	 * @param middleCategoryList
 	 */
 	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList) {
-		
-		Optional<MiddleCategory> middleCategory  
-			= middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey)).findFirst();
 
-		
+		Optional<MiddleCategory> middleCategory = middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey))
+				.findFirst();
+
 		middleCategory.get();
 		// middleCategoryList.stream().filter(mc ->
 		// mc.getKey().equals(searchKey)).findFirst();
@@ -162,34 +155,5 @@ public class NestListClassSearch {
 	private boolean isConditin(LastCategory lastCategory) {
 		// 条件式を記載する。
 		return true;
-	}
-
-	/**
-	 * [パターン2] パターン1の応用 Categoryではなく、子供のMiddleCategoryのキーを元に検索し、
-	 * MiddleカテゴリーのListを返す。
-	 */
-	public void searchNestListKey_2() {
-
-		CreateCategoryDataList createLogic = new CreateCategoryDataList();
-
-		List<Category> cateList = createLogic.create();
-
-		List<String> searchKeys = new ArrayList<>();
-		searchKeys.add("CG");
-		searchKeys.add("CH");
-
-		// ここのAの部分を検索キーワードが詰まった配列にしたい。
-		// List<MiddleCategory> mCate =
-		// cateList.stream().map(forEach(clist ->
-		// clist.getMiddleCategoryList().stream()
-		// .(mCate ->
-		// searchKeys.contains(mCate.getKey())).collect(Collectors.toList()));
-
-		// List<Category> temp =
-		// cateList.stream().filter(cate -> searchKeys.contains(
-		// cate.getMiddleCategoryList().forEach(mlist ->
-		// mlist.getKey()))).collect(Collectors.toList());
-
-		// temp.forEach(System.out::print);
 	}
 }

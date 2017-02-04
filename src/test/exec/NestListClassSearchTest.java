@@ -19,5 +19,7 @@ public class NestListClassSearchTest {
 		NestListClassSearch logic = new NestListClassSearch();
 		logic.searchMacthConditon("AG",middleCategoryList);
 		
+		//flatMapにてネストクラスが持つList<MiddleCategory>を検索する。
+		logic.searchByFlatMap();
 	}
 }
