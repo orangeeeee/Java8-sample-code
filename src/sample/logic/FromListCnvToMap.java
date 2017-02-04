@@ -1,14 +1,11 @@
 package sample.logic;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import bean.Category;
-import bean.DummyMiddleCategory;
 import bean.MiddleCategory;
 import emum.MemberType;
 import emum.OperationType;
