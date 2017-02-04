@@ -3,6 +3,7 @@ package sample.logic;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ObjectListFactory {
 
@@ -17,6 +18,15 @@ public class ObjectListFactory {
 		} else if (obj instanceof LocalDateTime) {
 			this.list.add(obj);
 		}
+	}
+
+	public void addList(List<String> list) {
+		String item = list.stream().collect(Collectors.joining(System.lineSeparator()));
+		this.list.add(item);
+	}
+
+	public void addOpt(String opt, Object obj) {
+		this.list.add(opt + ":" + obj);
 	}
 
 	public List<Object> get() {
