@@ -22,12 +22,23 @@ public class NestListClassSearch {
 		List<Category> cateList = createLogic.create();
 
 		final String searchKey = "BG";
-		Optional<MiddleCategory> middleCategory = cateList.stream().flatMap(mc -> mc.getMiddleCategoryList().stream())
+		Optional<MiddleCategory> middleCategory = cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
 				.filter(mc -> mc.getKey().equals(searchKey)).findFirst();
-		
+
 		if (middleCategory.isPresent()) {
 			System.out.println("success get middleCategory:");
 			System.out.println(middleCategory.toString());
+		}
+
+		// もう一段階ネストしたクラスのリストを検索する。
+		final String searchKeyForLast = "BGK";
+		Optional<LastCategory> lastCategory = cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
+				.flatMap(mc -> mc.getLastCategoryList().stream()).filter(lc -> lc.getKey().equals(searchKeyForLast))
+				.findFirst();
+
+		if (lastCategory.isPresent()) {
+			System.out.println("success get lastCategory:");
+			System.out.println(lastCategory.toString());
 		}
 	}
 
