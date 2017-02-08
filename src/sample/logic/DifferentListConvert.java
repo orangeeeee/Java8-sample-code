@@ -17,6 +17,8 @@ public class DifferentListConvert {
 		addExistingList(cateList, originList, "K");
 		addExistingList2(cateList, originList, "B");
 		
+		originList.stream().forEach(c -> System.out.println(c.toString()));
+		
 	}
 
 	private List<DummyMiddleCategory> sample1() {
