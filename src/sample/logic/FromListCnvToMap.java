@@ -1,8 +1,9 @@
 package sample.logic;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,24 +11,17 @@ import bean.Category;
 import bean.MiddleCategory;
 import emum.MemberType;
 import emum.OperationType;
-import test.data.CreateCategoryDataList;
 
-public class FromListCnvToMap {
+public class FromListCnvToMap  extends AbstractTestLogic {
 
 	public Map<String, List<MiddleCategory>> convertMap1() {
 
-		CreateCategoryDataList createLogic = new CreateCategoryDataList();
 
-		List<Category> cateList = createLogic.create();
+		List<Category> cateList = createTestList();
 
 		// listのTOPにあるクラスの項目以外をkeyにする場合
 		Map<String, List<MiddleCategory>> res = cateList.stream()
 				.collect(Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList()));
-
-		
-		
-		
-		
 		
 		// 並列処理
 		Map<String, List<MiddleCategory>> pararel = cateList.stream()
@@ -36,6 +30,10 @@ public class FromListCnvToMap {
 		// listのTOPにあるクラスの項目をkeyにする場合
 		Map<String, List<Category>> resGroupBy 
 			= cateList.stream().collect(Collectors.groupingBy(k -> k.getKey()));
+		
+		final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> (mc -> mc.getKey()
+				.equals(searchKey));
+		
 
 		// これでも同じ TODO 例が悪い
 		Map<String, String> oparationTypeMapLamdba = Stream.of(OperationType.values())

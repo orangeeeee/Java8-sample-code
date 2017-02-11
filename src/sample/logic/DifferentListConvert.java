@@ -6,9 +6,8 @@ import java.util.stream.Collectors;
 
 import bean.Category;
 import bean.DummyMiddleCategory;
-import test.data.CreateCategoryDataList;
 
-public class DifferentListConvert {
+public class DifferentListConvert extends AbstractTestLogic {
 
 	public void execute() {
 		List<Category> cateList = createTestList();
@@ -51,10 +50,4 @@ public class DifferentListConvert {
 		return new DummyMiddleCategory();
 	}
 
-	private List<Category> createTestList() {
-
-		// テストデータ作成
-		CreateCategoryDataList createLogic = new CreateCategoryDataList();
-		return createLogic.create();
-	}
 }

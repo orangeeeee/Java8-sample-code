@@ -11,22 +11,22 @@ import bean.LastCategory;
 import bean.MiddleCategory;
 import test.data.CreateCategoryDataList;
 
-public class NestListClassSearch {
+public class NestListClassSearch extends AbstractTestLogic {
 
 	/**
 	 * flatMapを使用し、ネストしたListをstreamで検索する。
 	 */
 	public void searchByFlatMap() {
 		// テストデータ作成
-		CreateCategoryDataList createLogic = new CreateCategoryDataList();
-		List<Category> cateList = createLogic.create();
+		List<Category> cateList = createTestList();
 
 		cateList.stream().filter(c -> true).findFirst().get()
-			.getMiddleCategoryList().stream().filter(m -> true).findFirst().get();
-		
+			.getMiddleCategoryList().stream().filter(m -> true)
+				.findFirst().get();
+
 		final String searchKey = "BG";
-		Optional<MiddleCategory> middleCategory 
-			= cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
+		Optional<MiddleCategory> middleCategory = cateList.stream()
+				.flatMap(c -> c.getMiddleCategoryList().stream())
 				.filter(mc -> mc.getKey().equals(searchKey)).findFirst();
 
 		if (middleCategory.isPresent()) {
@@ -36,8 +36,15 @@ public class NestListClassSearch {
 
 		// もう一段階ネストしたクラスのリストを検索する。
 		final String searchKeyForLast = "BGK";
-		Optional<LastCategory> lastCategory
-			= cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
+		Optional<LastCategory> lastCategory = cateList.stream()
+				.flatMap(c -> c.getMiddleCategoryList().stream())
+				.flatMap(mc -> mc.getLastCategoryList().stream())
+				.filter(lc -> lc.getKey().equals(searchKeyForLast))
+				.findFirst();
+		
+		// パフォーマンスを意識するとこうなることもある。
+		cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
+				.filter(mc -> mc.getKey().equals("BG"))
 				.flatMap(mc -> mc.getLastCategoryList().stream())
 				.filter(lc -> lc.getKey().equals(searchKeyForLast))
 				.findFirst();
