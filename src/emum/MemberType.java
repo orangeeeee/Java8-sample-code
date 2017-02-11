@@ -3,7 +3,7 @@ package emum;
 public enum MemberType implements kubun {
 
 	NOMAL("1","NMT"),
-	PREMIUM("1","PMT");
+	PREMIUM("2","PMT");
 	
 	private String key;
 	private String name;

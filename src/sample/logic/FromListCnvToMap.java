@@ -1,5 +1,6 @@
 package sample.logic;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,14 +24,20 @@ public class FromListCnvToMap {
 		Map<String, List<MiddleCategory>> res = cateList.stream()
 				.collect(Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList()));
 
+		
+		
+		
+		
+		
 		// 並列処理
 		Map<String, List<MiddleCategory>> pararel = cateList.stream()
 				.collect(Collectors.toConcurrentMap(Category::getKey, k -> k.getMiddleCategoryList()));
 
 		// listのTOPにあるクラスの項目をkeyにする場合
-		Map<Object, List<Category>> resGroupBy = cateList.stream().collect(Collectors.groupingBy(k -> k.getKey()));
+		Map<String, List<Category>> resGroupBy 
+			= cateList.stream().collect(Collectors.groupingBy(k -> k.getKey()));
 
-		// これでも同じ
+		// これでも同じ TODO 例が悪い
 		Map<String, String> oparationTypeMapLamdba = Stream.of(OperationType.values())
 				.collect(Collectors.toMap(s -> s.getKey(), s -> s.getName()));
 

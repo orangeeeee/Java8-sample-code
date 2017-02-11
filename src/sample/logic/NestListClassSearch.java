@@ -21,8 +21,12 @@ public class NestListClassSearch {
 		CreateCategoryDataList createLogic = new CreateCategoryDataList();
 		List<Category> cateList = createLogic.create();
 
+		cateList.stream().filter(c -> true).findFirst().get()
+			.getMiddleCategoryList().stream().filter(m -> true).findFirst().get();
+		
 		final String searchKey = "BG";
-		Optional<MiddleCategory> middleCategory = cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
+		Optional<MiddleCategory> middleCategory 
+			= cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
 				.filter(mc -> mc.getKey().equals(searchKey)).findFirst();
 
 		if (middleCategory.isPresent()) {
@@ -32,8 +36,10 @@ public class NestListClassSearch {
 
 		// もう一段階ネストしたクラスのリストを検索する。
 		final String searchKeyForLast = "BGK";
-		Optional<LastCategory> lastCategory = cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
-				.flatMap(mc -> mc.getLastCategoryList().stream()).filter(lc -> lc.getKey().equals(searchKeyForLast))
+		Optional<LastCategory> lastCategory
+			= cateList.stream().flatMap(c -> c.getMiddleCategoryList().stream())
+				.flatMap(mc -> mc.getLastCategoryList().stream())
+				.filter(lc -> lc.getKey().equals(searchKeyForLast))
 				.findFirst();
 
 		if (lastCategory.isPresent()) {
@@ -43,8 +49,11 @@ public class NestListClassSearch {
 	}
 
 	// Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
-	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> mc -> mc.getKey()
-			.equals(searchKey);
+	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> (mc -> mc.getKey()
+			.equals(searchKey));
+	// Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
+	private final Function<String, Predicate<MiddleCategory>> mNameMach = searchKey -> (mc -> mc.getName()
+			.equals(searchKey));
 
 	/**
 	 * 一番上のクラスから順にfilterで絞る。
@@ -54,10 +63,15 @@ public class NestListClassSearch {
 	 */
 	public void searchMacthConditon(String searchKey, List<MiddleCategory> middleCategoryList) {
 
-		Optional<MiddleCategory> middleCategory = middleCategoryList.parallelStream().filter(mKeyMach.apply(searchKey))
-				.findFirst();
+		Optional<MiddleCategory> optMiddleCategory = middleCategoryList.stream()
+				.filter(mc -> mc.getKey().equals(searchKey)).findFirst();
 
-		middleCategory.get();
+		MiddleCategory middleCategory = optMiddleCategory.orElse(null);
+
+		middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst();
+		middleCategoryList.stream().filter(mNameMach.apply(searchKey)).findFirst();
+
+		optMiddleCategory.get();
 		// middleCategoryList.stream().filter(mc ->
 		// mc.getKey().equals(searchKey)).findFirst();
 

@@ -81,7 +81,8 @@ public class LimitOffSet {
 	 */
 	private List<Category> getTargetList(List<Category> cateList, final int offset, final int limit) {
 
-		return cateList.stream().skip(offset).limit(limit).collect(Collectors.toCollection(ArrayList::new));
+		return cateList.stream().skip(offset).limit(limit).
+				collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**

@@ -15,11 +15,16 @@ public class OtherObjectStream {
 		String searchKey = "2";
 
 		// Array.asList
-		Arrays.asList(MemberType.values()).stream().filter(mt -> mt.getKey().equals(searchKey)).findFirst();
+		Optional<MemberType> optMemberType = Arrays.asList(MemberType.values()).stream()
+			.filter(mt -> mt.getKey().equals(searchKey)).findFirst();
+		
+		Arrays.stream(MemberType.values()).count();
+		
 		// Array.asList ⇨ Stream.of
 		Stream.of(MemberType.values()).filter(mt -> mt.getKey().equals(searchKey)).findFirst();
 
 		MemberType memberType = this.get(MemberType.class, searchKey).orElseThrow(SystemException::new);
+		
 		MemberType memberType2 = this.get(MemberType.class, searchKey).orElse(null);
 
 		String name = this.getName(MemberType.class, searchKey);
