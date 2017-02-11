@@ -34,7 +34,6 @@ public class FromListCnvToMap  extends AbstractTestLogic {
 		final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> (mc -> mc.getKey()
 				.equals(searchKey));
 		
-
 		// これでも同じ TODO 例が悪い
 		Map<String, String> oparationTypeMapLamdba = Stream.of(OperationType.values())
 				.collect(Collectors.toMap(s -> s.getKey(), s -> s.getName()));

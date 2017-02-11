@@ -42,6 +42,7 @@ public class OtherObjectStream {
 		return Stream.of(clazz.getEnumConstants())
 				.filter(k -> k instanceof kubun && ((kubun) k).getKey().equals(keyValue)).findFirst();
 	}
+	
 	//nameを返す。
 	private <E extends Enum<E>> String getName(Class<E> clazz, String keyValue) {
 
