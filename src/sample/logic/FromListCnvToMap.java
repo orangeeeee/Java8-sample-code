@@ -1,5 +1,6 @@
 package sample.logic;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -19,10 +20,16 @@ public class FromListCnvToMap  extends AbstractTestLogic {
 
 		List<Category> cateList = createTestList();
 
-		// listのTOPにあるクラスの項目以外をkeyにする場合
-		Map<String, List<MiddleCategory>> res = cateList.stream()
+		// listのTOPにあるクラスの項目以外をkeyにする場合 HashMapなので順序は保たれない。
+		Map<String, List<MiddleCategory>> middleCategoryMap = cateList.stream()
 				.collect(Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList()));
-		
+		middleCategoryMap.entrySet().stream().forEach(map -> System.out.println(map.getKey()));
+		System.out.println("----------------------------------------------------------------");
+		//LinkedHashMap
+		Map<String, List<MiddleCategory>> middleCategoryLinkedHashMap = cateList.stream()
+				.collect(Collectors.toMap(Category::getKey, k -> k.getMiddleCategoryList(),
+						(u, v) -> v, LinkedHashMap::new));
+		middleCategoryLinkedHashMap.entrySet().stream().forEach(map -> System.out.println(map.getKey()));
 		// 並列処理
 		Map<String, List<MiddleCategory>> pararel = cateList.stream()
 				.collect(Collectors.toConcurrentMap(Category::getKey, k -> k.getMiddleCategoryList()));
@@ -54,6 +61,6 @@ public class FromListCnvToMap  extends AbstractTestLogic {
 		memberTypeMap.entrySet().stream()
 				.forEach(opeMap -> System.out.println("key :" + opeMap.getKey() + ",value:" + opeMap.getValue()));
 
-		return res;
+		return middleCategoryLinkedHashMap;
 	}
 }

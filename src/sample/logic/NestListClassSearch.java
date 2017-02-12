@@ -58,9 +58,6 @@ public class NestListClassSearch extends AbstractTestLogic {
 	// Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
 	private final Function<String, Predicate<MiddleCategory>> mKeyMach = searchKey -> (mc -> mc.getKey()
 			.equals(searchKey));
-	// Functionを使用して、戻り値としてfilterの引数であるPredicateを返す。
-	private final Function<String, Predicate<MiddleCategory>> mNameMach = searchKey -> (mc -> mc.getName()
-			.equals(searchKey));
 
 	/**
 	 * 一番上のクラスから順にfilterで絞る。
@@ -76,7 +73,6 @@ public class NestListClassSearch extends AbstractTestLogic {
 		MiddleCategory middleCategory = optMiddleCategory.orElse(null);
 
 		middleCategoryList.stream().filter(mKeyMach.apply(searchKey)).findFirst();
-		middleCategoryList.stream().filter(mNameMach.apply(searchKey)).findFirst();
 
 		optMiddleCategory.get();
 		// middleCategoryList.stream().filter(mc ->
