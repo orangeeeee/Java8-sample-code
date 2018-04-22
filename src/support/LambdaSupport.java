@@ -1,5 +1,7 @@
 package support;
 
+import sun.util.locale.provider.*;
+
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -11,7 +13,11 @@ import java.util.function.Predicate;
 public class LambdaSupport {
 
 	public static Predicate<String> isNotEmpty() {
-		return v -> !"".equals(v);
+		return isEmpty().negate();
+	}
+
+	public static Predicate<String> isEmpty() {
+		return (v -> "".equals(v));
 	}
 
 	public static Function<String, String> toUpperCase() {
@@ -22,7 +28,12 @@ public class LambdaSupport {
 		return t -> v -> v.equals(t);
 	}
 
+	public static Predicate<String> non(Predicate<String> stringPredicate) {
+		return stringPredicate.negate();
+	}
+
 	public static <T> Optional<T> opt(T value) {
 		return Optional.ofNullable(value);
 	}
+
 }

@@ -1,15 +1,12 @@
 package support.test;
 
-import static support.LambdaSupport.isEqual;
-import static support.LambdaSupport.isNotEmpty;
-import static support.LambdaSupport.toUpperCase;
-import static support.LambdaSupport.opt;
-
 import java.util.Arrays;
 import java.util.List;
 
 import bean.Category;
 import test.data.CreateCategoryDataList;
+
+import static support.LambdaSupport.*;
 
 
 public class LambdaSupportTest {
